@@ -1,0 +1,23 @@
+name: Fetch Image
+on:
+  workflow_dispatch:
+      inputs:
+            image_url:
+                    description: 'URL of the image to fetch'
+                            required: true
+                                    type: string
+                                    jobs:
+                                      fetch:
+                                          runs-on: ubuntu-latest
+                                              steps:
+                                                    - uses: actions/checkout@v4
+                                                          - name: Download image
+                                                                  run: curl -L -o photo.jpg "${{ github.event.inputs.image_url }}"
+                                                                        - name: Commit and push
+                                                                                run: |
+                                                                                          git config user.name "github-actions[bot]"
+                                                                                                    git config user.email "github-actions[bot]@users.noreply.github.com"
+                                                                                                              git add photo.jpg
+                                                                                                                        git commit -m "Fetch image" || echo "No changes to commit"
+                                                                                                                                  git push
+                                                                                                                                  
